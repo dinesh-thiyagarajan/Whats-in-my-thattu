@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Whats in my thattu"
 include(":app")
- 
+include(":TensorImageInterpreter")

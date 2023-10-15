@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-
+        classpath(libs.spotless.plugin.gradle)
     }
 }
 
@@ -16,4 +16,5 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.8.0" apply false
     alias(libs.plugins.com.android.library) apply false
     alias(libs.plugins.hilt) apply false
+    id("com.diffplug.spotless") version "6.9.0" apply false
 }
