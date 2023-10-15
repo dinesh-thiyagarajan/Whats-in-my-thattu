@@ -74,6 +74,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation(libs.accompanist.permissions)
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
@@ -81,6 +82,12 @@ dependencies {
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+    implementation(libs.camera.view)
+    implementation(libs.camera.base)
+    implementation(libs.camera.lifecycle)
+    implementation(libs.camera.extensions)
+
 
     // TODO Duplicate Hilt dependency is be added in every new modules currently
     // TODO We Can avoid this by adding build logic in kotlin and apply the plugins to needed child modules
