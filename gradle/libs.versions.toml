@@ -40,6 +40,7 @@ camera-base = { group = "androidx.camera", name = "camera-camera2", version.ref 
 camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "camerax_version" }
 camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "camerax_version" }
 camera-extensions = { group = "androidx.camera", name = "camera-extensions", version.ref = "camerax_version" }
+firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version = "20.4.2" }
 
 
 [plugins]
