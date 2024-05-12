@@ -2,6 +2,7 @@ package com.dineshworkspace.whatsinmythattu.ui.composables
 
 
 import android.Manifest
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,7 +22,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun ImagePickerComposable() {
+fun ImagePickerComposable(onClose: () -> Unit) {
     val coroutineScope = rememberCoroutineScope()
     val imagePickerViewModel: ImagePickerViewModel = hiltViewModel()
     val permissionStates = rememberMultiplePermissionsState(
@@ -30,6 +31,10 @@ fun ImagePickerComposable() {
             Manifest.permission.READ_MEDIA_IMAGES
         )
     )
+
+    BackHandler {
+        onClose()
+    }
 
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(
@@ -50,6 +55,10 @@ fun ImagePickerComposable() {
 
     val pickMedia =
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri == null) {
+                onClose()
+                return@rememberLauncherForActivityResult
+            }
             imagePickerViewModel.onImageSelected(uri = uri)
         }
 

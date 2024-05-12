@@ -6,6 +6,7 @@ buildscript {
 
     dependencies {
         classpath(libs.spotless.plugin.gradle)
+        classpath("com.google.gms:google-services:4.4.1")
     }
 }
 

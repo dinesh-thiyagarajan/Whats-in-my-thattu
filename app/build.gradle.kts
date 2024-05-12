@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     alias(libs.plugins.hilt)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -90,10 +91,8 @@ dependencies {
     implementation(libs.camera.lifecycle)
     implementation(libs.camera.extensions)
 
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    implementation("androidx.compose.runtime:runtime:1.5.1")
+    implementation(libs.androidx.constraintlayout.compose)
 
-
-    // TODO Duplicate Hilt dependency is be added in every new modules currently
-    // TODO We Can avoid this by adding build logic in kotlin and apply the plugins to needed child modules
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.runtime)
 }
