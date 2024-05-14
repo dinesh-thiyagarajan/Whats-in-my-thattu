@@ -22,8 +22,8 @@ class ImagePickerViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    val probableFoodTypes: StateFlow<List<ProbableFoodMatch>> get() = _probableFoodTypes
-    private val _probableFoodTypes: MutableStateFlow<List<ProbableFoodMatch>> = MutableStateFlow(
+    val probableFoodMatches: StateFlow<List<ProbableFoodMatch>> get() = _probableFoodMatches
+    private val _probableFoodMatches: MutableStateFlow<List<ProbableFoodMatch>> = MutableStateFlow(
         listOf()
     )
 
@@ -31,10 +31,14 @@ class ImagePickerViewModel @Inject constructor(
         uri?.let {
             viewModelScope.launch(Dispatchers.IO) {
                 val bitmap = convertUriToBitMap(uri)
-                _probableFoodTypes.value = tensorImageInterpreter.runImage(bitmap)
+                _probableFoodMatches.value = tensorImageInterpreter.runImage(bitmap)
                 tensorImageInterpreter.closeModel()
             }
         }
+    }
+
+    fun resetProbableFoodMatches() {
+        _probableFoodMatches.value = listOf()
     }
 
     private fun convertUriToBitMap(uri: Uri): Bitmap =

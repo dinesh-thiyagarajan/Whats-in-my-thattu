@@ -20,9 +20,10 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import kotlinx.coroutines.launch
 
+
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun ImagePickerComposable(onClose: () -> Unit) {
+fun ImagePermissionComposable(onClose: () -> Unit) {
     val coroutineScope = rememberCoroutineScope()
     val imagePickerViewModel: ImagePickerViewModel = hiltViewModel()
     val permissionStates = rememberMultiplePermissionsState(
@@ -46,7 +47,6 @@ fun ImagePickerComposable(onClose: () -> Unit) {
                 }
             }
             lifecycleOwner.lifecycle.addObserver(observer)
-
             onDispose {
                 lifecycleOwner.lifecycle.removeObserver(observer)
             }
