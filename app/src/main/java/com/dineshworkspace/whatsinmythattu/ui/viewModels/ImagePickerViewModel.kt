@@ -32,14 +32,14 @@ class ImagePickerViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 val bitmap = convertUriToBitMap(uri)
                 val probableFoodMatches = mutableListOf<ProbableFoodMatch>()
-                val interpretedMatches: List<ProbableFoodMatch> = tensorImageInterpreter.runImageInterpretation(bitmap)
+                val interpretedMatches: List<ProbableFoodMatch> =
+                    tensorImageInterpreter.runImageInterpretation(bitmap)
                 repeat(interpretedMatches.filter { it.score > 0.0 }.size) { iterator ->
                     if (iterator <= 5) {
                         probableFoodMatches.add(interpretedMatches[iterator])
                     }
                 }
                 _probableFoodMatches.value = probableFoodMatches
-                tensorImageInterpreter.closeModel()
             }
         }
     }
