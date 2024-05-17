@@ -49,7 +49,7 @@ fun HomeScreenComposable(paddingValues: PaddingValues) {
                     .clickable {
                         showImagePicker = true
                     }
-                    .size(50.dp),
+                    .size(75.dp),
                 painter = painterResource(id = R.drawable.ic_camera),
                 contentDescription = "camera",
             )
