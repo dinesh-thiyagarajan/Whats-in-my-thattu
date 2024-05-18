@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -24,7 +23,7 @@ import com.dineshworkspace.whatsinmythattu.R
 import com.dineshworkspace.whatsinmythattu.ui.viewModels.ImageInterpreterViewModel
 
 @Composable
-fun HomeScreenComposable(paddingValues: PaddingValues) {
+fun HomeScreenComposable() {
     val imageInterpreterViewModel: ImageInterpreterViewModel = hiltViewModel()
     val foodMatches = imageInterpreterViewModel.probableFoodMatches.collectAsState()
 
@@ -37,7 +36,7 @@ fun HomeScreenComposable(paddingValues: PaddingValues) {
     }
 
     if (foodMatches.value.isNotEmpty()) {
-        ProbableFoodMatchesComposable(foodMatches.value, paddingValues = paddingValues) {
+        ProbableFoodMatchesComposable(foodMatches.value) {
             imageInterpreterViewModel.resetProbableFoodMatches()
             showImagePicker = false
         }
@@ -47,7 +46,6 @@ fun HomeScreenComposable(paddingValues: PaddingValues) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
         ) {
             Image(
                 modifier = Modifier

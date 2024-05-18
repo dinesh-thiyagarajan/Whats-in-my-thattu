@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,14 +19,12 @@ import com.dineshworkspace.tensorimageinterpreter.ProbableFoodMatch
 @Composable
 fun ProbableFoodMatchesComposable(
     foodMatches: List<ProbableFoodMatch>,
-    paddingValues: PaddingValues,
     onBackButtonPressed: () -> Unit
 ) {
-    Column(modifier = Modifier.padding(paddingValues)) {
+    Column {
         LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(paddingValues),
+                .fillMaxWidth(),
             contentPadding = PaddingValues(16.dp)
         ) {
             items(foodMatches) { item ->
