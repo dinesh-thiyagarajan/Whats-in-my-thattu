@@ -26,7 +26,7 @@ import com.dineshworkspace.whatsinmythattu.ui.viewModels.ImageInterpreterViewMod
 @Composable
 fun HomeScreenComposable() {
     val imageInterpreterViewModel: ImageInterpreterViewModel = hiltViewModel()
-    val foodMatches = imageInterpreterViewModel.probableFoodMatches.collectAsState()
+    val foodMatches = imageInterpreterViewModel.foodMatches.collectAsState()
 
     var showImagePicker: Boolean by remember {
         mutableStateOf(false)
@@ -37,7 +37,7 @@ fun HomeScreenComposable() {
     }
 
     if (foodMatches.value.isNotEmpty()) {
-        ProbableFoodMatchesComposable(foodMatches.value) {
+        FoodMatchesScreen(foodMatches.value) {
             imageInterpreterViewModel.resetProbableFoodMatches()
             showImagePicker = false
         }

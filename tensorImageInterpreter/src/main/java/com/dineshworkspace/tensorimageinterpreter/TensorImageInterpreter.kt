@@ -10,11 +10,11 @@ class TensorImageInterpreter(context: Context) {
 
     private val model: WhatsInMyThattu = WhatsInMyThattu.newInstance(context)
 
-    fun runImageInterpretation(bitmap: Bitmap): List<ProbableFoodMatch> {
+    fun runImageInterpretation(bitmap: Bitmap): List<FoodMatch> {
         val image = TensorImage.fromBitmap(bitmap)
         val outputs = model.process(image)
         return outputs.probabilityAsCategoryList.sortedByDescending { it.score }.map {
-            ProbableFoodMatch(
+            FoodMatch(
                 score = it.score,
                 displayName = it.displayName,
                 label = it.label

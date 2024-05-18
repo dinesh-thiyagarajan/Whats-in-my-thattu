@@ -6,7 +6,7 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dineshworkspace.tensorimageinterpreter.ProbableFoodMatch
+import com.dineshworkspace.tensorimageinterpreter.FoodMatch
 import com.dineshworkspace.tensorimageinterpreter.TensorImageInterpreter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,8 +22,8 @@ class ImageInterpreterViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    val probableFoodMatches: StateFlow<List<ProbableFoodMatch>> get() = _probableFoodMatches
-    private val _probableFoodMatches: MutableStateFlow<List<ProbableFoodMatch>> = MutableStateFlow(
+    val foodMatches: StateFlow<List<FoodMatch>> get() = _FoodMatches
+    private val _FoodMatches: MutableStateFlow<List<FoodMatch>> = MutableStateFlow(
         listOf()
     )
 
@@ -36,21 +36,21 @@ class ImageInterpreterViewModel @Inject constructor(
         uri?.let {
             viewModelScope.launch(Dispatchers.IO) {
                 val bitmap = convertUriToBitMap(uri)
-                val probableFoodMatches = mutableListOf<ProbableFoodMatch>()
-                val interpretedMatches: List<ProbableFoodMatch> =
+                val foodMatches = mutableListOf<FoodMatch>()
+                val interpretedMatches: List<FoodMatch> =
                     tensorImageInterpreter.runImageInterpretation(bitmap)
                 repeat(interpretedMatches.filter { it.score > 0.0 }.size) { iterator ->
                     if (iterator <= 5) {
-                        probableFoodMatches.add(interpretedMatches[iterator])
+                        foodMatches.add(interpretedMatches[iterator])
                     }
                 }
-                _probableFoodMatches.value = probableFoodMatches
+                _FoodMatches.value = foodMatches
             }
         }
     }
 
     fun resetProbableFoodMatches() {
-        _probableFoodMatches.value = listOf()
+        _FoodMatches.value = listOf()
     }
 
     fun updateCameraPermissionState(state: Boolean) {
