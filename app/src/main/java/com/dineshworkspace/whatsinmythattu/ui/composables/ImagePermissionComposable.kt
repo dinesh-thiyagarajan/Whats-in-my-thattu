@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import com.dineshworkspace.whatsinmythattu.ui.viewModels.ImagePickerViewModel
+import com.dineshworkspace.whatsinmythattu.ui.viewModels.ImageInterpreterViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ImagePermissionComposable(onClose: () -> Unit) {
     val coroutineScope = rememberCoroutineScope()
-    val imagePickerViewModel: ImagePickerViewModel = hiltViewModel()
+    val imageInterpreterViewModel: ImageInterpreterViewModel = hiltViewModel()
     val permissionStates = rememberMultiplePermissionsState(
         permissions = listOf(
             Manifest.permission.CAMERA,
@@ -59,7 +59,7 @@ fun ImagePermissionComposable(onClose: () -> Unit) {
                 onClose()
                 return@rememberLauncherForActivityResult
             }
-            imagePickerViewModel.onImageSelected(uri = uri)
+            imageInterpreterViewModel.onImageSelected(uri = uri)
         }
 
     permissionStates.permissions.forEach {
@@ -83,7 +83,7 @@ fun ImagePermissionComposable(onClose: () -> Unit) {
                     is PermissionStatus.Granted -> {
                         SideEffect {
                             coroutineScope.launch {
-                                /*TODO("Implement camera preview and capture option")*/
+
                             }
                         }
                     }

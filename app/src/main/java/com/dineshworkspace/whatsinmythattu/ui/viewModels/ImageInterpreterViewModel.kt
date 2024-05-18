@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ImagePickerViewModel @Inject constructor(
+class ImageInterpreterViewModel @Inject constructor(
     private val contentResolver: ContentResolver,
     private val tensorImageInterpreter: TensorImageInterpreter
 ) :
@@ -25,6 +25,11 @@ class ImagePickerViewModel @Inject constructor(
     val probableFoodMatches: StateFlow<List<ProbableFoodMatch>> get() = _probableFoodMatches
     private val _probableFoodMatches: MutableStateFlow<List<ProbableFoodMatch>> = MutableStateFlow(
         listOf()
+    )
+
+    val cameraPermissionState: StateFlow<Boolean> get() = _cameraPermissionState
+    private val _cameraPermissionState: MutableStateFlow<Boolean> = MutableStateFlow(
+        false
     )
 
     fun onImageSelected(uri: Uri?) {
@@ -46,6 +51,10 @@ class ImagePickerViewModel @Inject constructor(
 
     fun resetProbableFoodMatches() {
         _probableFoodMatches.value = listOf()
+    }
+
+    fun updateCameraPermissionState(state: Boolean) {
+        _cameraPermissionState.value = state
     }
 
     private fun convertUriToBitMap(uri: Uri): Bitmap =
