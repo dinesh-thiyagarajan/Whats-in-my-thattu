@@ -16,6 +16,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.SideEffect
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -175,12 +177,15 @@ fun CameraPreviewComposable(
         )
         Image(
             modifier = Modifier
+                .padding(bottom = 20.dp)
                 .clickable {
                     val photoFile = File(
                         fileDir,
                         "${System.currentTimeMillis()}.jpg"
                     )
-                    val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+                    val outputOptions = ImageCapture.OutputFileOptions
+                        .Builder(photoFile)
+                        .build()
                     imageCapture.takePicture(
                         outputOptions,
                         executor,
