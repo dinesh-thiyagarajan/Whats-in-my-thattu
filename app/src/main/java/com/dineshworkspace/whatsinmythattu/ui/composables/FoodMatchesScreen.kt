@@ -38,7 +38,7 @@ import com.dineshworkspace.tensorimageinterpreter.FoodMatch
 fun FoodMatchesComposablePreview(
     @PreviewParameter(FoodMatchesPreviewParameterProvider::class) foodMatches: List<FoodMatch>
 ) {
-    FoodMatchesComposable(foodMatches) {}
+    FoodMatchesComposable(foodMatches = foodMatches, onBackButtonPressed = { true })
 }
 
 class FoodMatchesPreviewParameterProvider : PreviewParameterProvider<List<FoodMatch>> {
@@ -55,7 +55,7 @@ class FoodMatchesPreviewParameterProvider : PreviewParameterProvider<List<FoodMa
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FoodMatchesScreen(
-    foodMatches: List<FoodMatch>, onBackButtonPressed: () -> Unit
+    foodMatches: List<FoodMatch>, onBackButtonPressed: () -> Unit,
 ) {
     Scaffold(content = {
         Surface(
@@ -87,7 +87,9 @@ fun AppBar() {
             "Food Matches", maxLines = 1, overflow = TextOverflow.Ellipsis
         )
     }, navigationIcon = {
-        IconButton(onClick = { }) {
+        IconButton(onClick = {
+
+        }) {
             Icon(
                 imageVector = Icons.Sharp.ArrowBack,
                 contentDescription = "back"

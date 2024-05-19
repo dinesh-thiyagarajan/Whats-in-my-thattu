@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.dineshworkspace.tensorimageinterpreter.FoodMatch
 import com.dineshworkspace.tensorimageinterpreter.TensorImageInterpreter
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,8 +23,8 @@ class ImageInterpreterViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    val foodMatches: StateFlow<List<FoodMatch>> get() = _FoodMatches
-    private val _FoodMatches: MutableStateFlow<List<FoodMatch>> = MutableStateFlow(
+    val foodMatches: StateFlow<List<FoodMatch>> get() = _foodMatches
+    private val _foodMatches: MutableStateFlow<List<FoodMatch>> = MutableStateFlow(
         listOf()
     )
 
@@ -44,13 +45,13 @@ class ImageInterpreterViewModel @Inject constructor(
                         foodMatches.add(interpretedMatches[iterator])
                     }
                 }
-                _FoodMatches.value = foodMatches
+                _foodMatches.value = foodMatches
             }
         }
     }
 
     fun resetProbableFoodMatches() {
-        _FoodMatches.value = listOf()
+        _foodMatches.value = listOf()
     }
 
     fun updateCameraPermissionState(state: Boolean) {

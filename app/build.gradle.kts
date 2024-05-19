@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.dineshworkspace.whatsinmythattu"
-        minSdk = 29
+        minSdk = 33
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -93,6 +93,7 @@ dependencies {
 
     implementation(libs.androidx.constraintlayout.compose)
 
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.runtime)
 }

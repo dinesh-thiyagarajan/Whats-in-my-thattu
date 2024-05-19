@@ -10,7 +10,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.dineshworkspace.whatsinmythattu.ui.composables.HomeScreenComposable
+import androidx.navigation.compose.rememberNavController
+import com.dineshworkspace.whatsinmythattu.navigation.AppNav
+import com.dineshworkspace.whatsinmythattu.navigation.AppRouter
 import com.dineshworkspace.whatsinmythattu.ui.theme.WhatsInMyThattuTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +30,9 @@ class MainActivity : ComponentActivity() {
                             .padding(it),
                         color = MaterialTheme.colorScheme.background
                     ) {
-                        HomeScreenComposable()
+                        val navController = rememberNavController()
+                        AppRouter.navController = navController
+                        AppNav(navController)
                     }
                 }, modifier = Modifier.fillMaxSize())
             }

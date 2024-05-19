@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dineshworkspace.whatsinmythattu.R
+import com.dineshworkspace.whatsinmythattu.navigation.AppRouter
+import com.dineshworkspace.whatsinmythattu.navigation.Screen
 import com.dineshworkspace.whatsinmythattu.ui.viewModels.ImageInterpreterViewModel
 
 
@@ -32,15 +34,8 @@ fun HomeScreenComposable() {
         mutableStateOf(false)
     }
 
-    var showCameraPreview: Boolean by remember {
-        mutableStateOf(false)
-    }
-
     if (foodMatches.value.isNotEmpty()) {
-        FoodMatchesScreen(foodMatches.value) {
-            imageInterpreterViewModel.resetProbableFoodMatches()
-            showImagePicker = false
-        }
+        AppRouter.navigate(Screen.FoodMatchesScreen.route)
     } else {
         ConstraintLayout {
             val (cameraImage, divider, folderImage) = createRefs()
@@ -53,7 +48,7 @@ fun HomeScreenComposable() {
                     }
                     .padding(end = 20.dp)
                     .clickable {
-                        showCameraPreview = true
+                        AppRouter.navigate(Screen.CameraPreviewScreen.route)
                     }
                     .size(50.dp),
                 painter = painterResource(id = R.drawable.ic_camera),
@@ -94,10 +89,6 @@ fun HomeScreenComposable() {
 
     if (showImagePicker) {
         ImagePermissionComposable(onClose = { showImagePicker = false })
-    }
-
-    if (showCameraPreview) {
-        CameraComposable()
     }
 }
 
