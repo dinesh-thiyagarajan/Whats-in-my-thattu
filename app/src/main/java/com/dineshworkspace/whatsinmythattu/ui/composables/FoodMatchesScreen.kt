@@ -1,7 +1,7 @@
 package com.dineshworkspace.whatsinmythattu.ui.composables
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -67,13 +67,19 @@ fun FoodMatchesScreen(
                     .padding(it),
                 color = MaterialTheme.colorScheme.background
             ) {
-                Text(text = "Suggestions")
-                Spacer(modifier = Modifier.height(20.dp))
-                FoodMatchesComposable(foodMatches.value)
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(text = "Suggestions")
+                    Spacer(modifier = Modifier.height(20.dp))
+                    FoodMatchesComposable(foodMatches.value)
+                }
             }
         },
         modifier = Modifier.fillMaxSize(),
         topBar = { AppBar(onBackButtonPressed = onBackButtonPressed) })
+
+    BackHandler {
+        onBackButtonPressed.invoke()
+    }
 }
 
 
@@ -111,7 +117,7 @@ fun FoodMatchesComposable(
 ) {
     Column {
         LazyColumn(
-            modifier = Modifier.fillMaxWidth(), contentPadding = PaddingValues(16.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
             items(foodMatches) { item ->
                 FoodItem(item)
