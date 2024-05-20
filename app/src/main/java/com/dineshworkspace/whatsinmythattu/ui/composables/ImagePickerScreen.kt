@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.navigation.NavOptions
 import com.dineshworkspace.whatsinmythattu.navigation.NavRouter
 import com.dineshworkspace.whatsinmythattu.navigation.Router
 import com.dineshworkspace.whatsinmythattu.ui.viewModels.ImageInterpreterViewModel
@@ -72,8 +73,9 @@ internal fun ImagePickerComposable(
                     imageInterpreterViewModel.onImageSelected(uri = uri)
                 }
                 imageInterpretation.await()
-                onClose.invoke()
-                NavRouter.navigate(Router.FoodMatchesRouter.route, )
+                val navOptions =
+                    NavOptions.Builder().setPopUpTo(Router.FoodMatchesRouter.route, true).build()
+                NavRouter.navigate(Router.FoodMatchesRouter.route, navOptions = navOptions)
             }
         }
     LaunchedEffect(key1 = Unit) {
