@@ -37,6 +37,11 @@ class ImageInterpreterViewModel @Inject constructor(
         false
     )
 
+    val launchImagePicker: StateFlow<Boolean> get() = _launchImagePicker
+    private val _launchImagePicker: MutableStateFlow<Boolean> = MutableStateFlow(
+        false
+    )
+
     val redirectToImagePickerScreen: StateFlow<Boolean> get() = _redirectToImagePickerScreen
     private val _redirectToImagePickerScreen: MutableStateFlow<Boolean> = MutableStateFlow(
         false
@@ -62,6 +67,10 @@ class ImageInterpreterViewModel @Inject constructor(
 
     fun resetProbableFoodMatches() {
         _foodMatches.value = listOf()
+    }
+
+    fun updateLaunchImagePicker(state: Boolean) {
+        _launchImagePicker.value = state
     }
 
     fun updateCameraPermissionState(state: Boolean) {

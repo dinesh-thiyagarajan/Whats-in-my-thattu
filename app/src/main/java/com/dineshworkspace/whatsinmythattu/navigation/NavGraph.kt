@@ -43,7 +43,12 @@ fun NavGraph(navController: NavHostController) {
         composable(route = Router.ImagePicker.route) {
             ImagePickerScreen(
                 imageInterpreterViewModel = imageInterpreterViewModel,
-                onClose = { navController.popBackStack() }
+                onClose = {
+                    navController.popBackStack(
+                        route = Router.FoodMatchesRouter.route,
+                        inclusive = false
+                    )
+                }
             )
         }
         composable(

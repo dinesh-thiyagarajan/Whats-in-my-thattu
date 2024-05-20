@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -32,21 +33,22 @@ fun ImagePickerScreen(
     imageInterpreterViewModel: ImageInterpreterViewModel,
     onClose: () -> Unit
 ) {
+    val launchImagePicker = imageInterpreterViewModel.launchImagePicker.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+
     when (PackageManager.PERMISSION_GRANTED) {
         ContextCompat.checkSelfPermission(
             LocalContext.current,
             Manifest.permission.READ_MEDIA_IMAGES
         ) -> {
-            ImagePickerComposable(
-                imageInterpreterViewModel = imageInterpreterViewModel,
-                onClose = onClose
-            )
+            LaunchedEffect(key1 = PackageManager.PERMISSION_GRANTED) {
+                imageInterpreterViewModel.updateLaunchImagePicker(true)
+            }
         }
 
         else -> {
             RequestImagePickerPermissionComposable(
-                imageInterpreterViewModel = imageInterpreterViewModel,
-                onClose = onClose
+                imageInterpreterViewModel = imageInterpreterViewModel
             )
         }
     }
@@ -54,14 +56,7 @@ fun ImagePickerScreen(
     BackHandler {
         onClose()
     }
-}
 
-@Composable
-internal fun ImagePickerComposable(
-    imageInterpreterViewModel: ImageInterpreterViewModel,
-    onClose: () -> Unit
-) {
-    val coroutineScope = rememberCoroutineScope()
     val pickMedia =
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri == null) {
@@ -78,8 +73,10 @@ internal fun ImagePickerComposable(
                 NavRouter.navigate(Router.FoodMatchesRouter.route, navOptions = navOptions)
             }
         }
-    LaunchedEffect(key1 = Unit) {
-        pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+    LaunchedEffect(key1 = launchImagePicker.value) {
+        if (launchImagePicker.value) {
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
     }
 }
 
@@ -87,8 +84,7 @@ internal fun ImagePickerComposable(
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 internal fun RequestImagePickerPermissionComposable(
-    imageInterpreterViewModel: ImageInterpreterViewModel,
-    onClose: () -> Unit
+    imageInterpreterViewModel: ImageInterpreterViewModel
 ) {
     val permissionStates = rememberMultiplePermissionsState(
         permissions = listOf(
@@ -117,10 +113,9 @@ internal fun RequestImagePickerPermissionComposable(
             Manifest.permission.READ_MEDIA_IMAGES -> {
                 when (it.status) {
                     is PermissionStatus.Granted -> {
-                        ImagePickerComposable(
-                            imageInterpreterViewModel = imageInterpreterViewModel,
-                            onClose = onClose
-                        )
+                        SideEffect {
+                            imageInterpreterViewModel.updateLaunchImagePicker(true)
+                        }
                     }
 
                     is PermissionStatus.Denied -> {
