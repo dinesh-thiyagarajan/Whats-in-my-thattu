@@ -1,18 +1,21 @@
 package com.dineshworkspace.whatsinmythattu.ui.composables
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.ArrowBack
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,12 +28,16 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.dineshworkspace.tensorimageinterpreter.FoodMatch
+import com.dineshworkspace.whatsinmythattu.R
 import com.dineshworkspace.whatsinmythattu.ui.viewModels.ImageInterpreterViewModel
 
 
@@ -59,6 +66,7 @@ fun FoodMatchesScreen(
     imageInterpreterViewModel: ImageInterpreterViewModel, onBackButtonPressed: () -> Unit,
 ) {
     val foodMatches = imageInterpreterViewModel.foodMatches.collectAsState()
+
     Scaffold(
         content = {
             Surface(
@@ -115,22 +123,79 @@ fun AppBar(onBackButtonPressed: () -> Unit) {
 fun FoodMatchesComposable(
     foodMatches: List<FoodMatch>
 ) {
-    Column {
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            items(foodMatches) { item ->
-                FoodItem(item)
-            }
+    GridListWithRoundedCardViews(data = foodMatches)
+}
+
+private fun getResourceId(index: Int): Int {
+    return when (index) {
+        1 -> R.drawable.ic_food_1
+        2 -> R.drawable.ic_food_2
+        3 -> R.drawable.ic_food_3
+        4 -> R.drawable.ic_food_4
+        5 -> R.drawable.ic_food_5
+        6 -> R.drawable.ic_food_6
+        7 -> R.drawable.ic_food_7
+        8 -> R.drawable.ic_food_8
+        else -> R.drawable.ic_food_1 // Default fallback
+    }
+}
+
+@Composable
+fun GridListWithRoundedCardViews(
+    data: List<FoodMatch>,
+    numColumns: Int = 2
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(numColumns),
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(8.dp)
+    ) {
+        items(data.size) { index ->
+            RoundedCardView(
+                imageResId = getResourceId(if (index in 1..8) index else 5),
+                title = data[index].label,
+                description = "Score: ${data[index].score}%",
+            )
         }
     }
 }
 
 @Composable
-fun FoodItem(foodMatch: FoodMatch) {
-    Row {
-        Text(text = foodMatch.label)
-        Spacer(modifier = Modifier.width(10.dp))
-        Text(text = foodMatch.score.toString())
+fun RoundedCardView(imageResId: Int, title: String, description: String) {
+    Card(
+        modifier = Modifier
+            .padding(8.dp)
+            .aspectRatio(1f),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.LightGray, //Card background color
+            contentColor = Color.Black  //Card content color,e.g.text
+        ),
+        shape = MaterialTheme.shapes.medium
+    ) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Image(
+                painter = painterResource(id = imageResId),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                contentScale = ContentScale.Crop
+            )
+
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Color.Black
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = description,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = Color.Black
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
     }
 }

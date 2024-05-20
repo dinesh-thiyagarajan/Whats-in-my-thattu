@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
+import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dineshworkspace.tensorimageinterpreter.FoodMatch
@@ -56,7 +57,7 @@ class ImageInterpreterViewModel @Inject constructor(
                 val interpretedMatches: List<FoodMatch> =
                     tensorImageInterpreter.runImageInterpretation(bitmap)
                 repeat(interpretedMatches.filter { it.score > 0.0 }.size) { iterator ->
-                    if (iterator <= 5) {
+                    if (iterator <= 100) {
                         foodMatches.add(interpretedMatches[iterator])
                     }
                 }
