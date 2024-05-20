@@ -33,11 +33,15 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.navigation.NavOptions
 import com.dineshworkspace.whatsinmythattu.R
+import com.dineshworkspace.whatsinmythattu.navigation.NavRouter
+import com.dineshworkspace.whatsinmythattu.navigation.Router
 import com.dineshworkspace.whatsinmythattu.ui.viewModels.ImageInterpreterViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.io.File
 import java.util.concurrent.Executor
@@ -191,7 +195,20 @@ fun CameraPreviewComposable(
                         object : ImageCapture.OnImageSavedCallback {
                             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                                 val uri = Uri.fromFile(photoFile)
-                                imageInterpreterViewModel.onImageSelected(uri = uri)
+                                coroutineScope.launch {
+                                    val imageInterpretation = coroutineScope.async {
+                                        imageInterpreterViewModel.onImageSelected(uri = uri)
+                                    }
+                                    imageInterpretation.await()
+                                    val navOptions = NavOptions
+                                        .Builder()
+                                        .setPopUpTo(Router.FoodMatchesRouter.route, true)
+                                        .build()
+                                    NavRouter.navigate(
+                                        route = Router.FoodMatchesRouter.route,
+                                        navOptions = navOptions
+                                    )
+                                }
                             }
 
                             override fun onError(exception: ImageCaptureException) {

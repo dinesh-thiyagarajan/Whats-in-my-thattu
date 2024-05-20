@@ -51,7 +51,12 @@ fun NavGraph(navController: NavHostController) {
         ) {
             FoodMatchesScreen(
                 imageInterpreterViewModel = imageInterpreterViewModel,
-                onBackButtonPressed = { NavRouter.popBackStack() })
+                onBackButtonPressed = {
+                    navController.popBackStack(
+                        route = Router.HomeRouter.route,
+                        inclusive = false
+                    )
+                })
         }
 
     }

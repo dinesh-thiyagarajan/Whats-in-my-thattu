@@ -73,7 +73,7 @@ internal fun ImagePickerComposable(
                 }
                 imageInterpretation.await()
                 onClose.invoke()
-                NavRouter.navigate(Router.FoodMatchesRouter.route)
+                NavRouter.navigate(Router.FoodMatchesRouter.route, )
             }
         }
     LaunchedEffect(key1 = Unit) {
