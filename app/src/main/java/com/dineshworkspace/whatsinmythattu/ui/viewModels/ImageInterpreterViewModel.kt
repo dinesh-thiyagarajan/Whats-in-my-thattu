@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.dineshworkspace.tensorimageinterpreter.FoodMatch
 import com.dineshworkspace.tensorimageinterpreter.TensorImageInterpreter
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,6 +31,17 @@ class ImageInterpreterViewModel @Inject constructor(
     private val _cameraPermissionState: MutableStateFlow<Boolean> = MutableStateFlow(
         false
     )
+
+    val imagePickerPermissionState: StateFlow<Boolean> get() = _imagePickerPermissionState
+    private val _imagePickerPermissionState: MutableStateFlow<Boolean> = MutableStateFlow(
+        false
+    )
+
+    val redirectToImagePickerScreen: StateFlow<Boolean> get() = _redirectToImagePickerScreen
+    private val _redirectToImagePickerScreen: MutableStateFlow<Boolean> = MutableStateFlow(
+        false
+    )
+
 
     fun onImageSelected(uri: Uri?) {
         uri?.let {
@@ -56,6 +66,14 @@ class ImageInterpreterViewModel @Inject constructor(
 
     fun updateCameraPermissionState(state: Boolean) {
         _cameraPermissionState.value = state
+    }
+
+    fun updateImagePickerPermissionState(state: Boolean) {
+        _imagePickerPermissionState.value = state
+    }
+
+    fun redirectToImagePickerScreen(state: Boolean) {
+        _redirectToImagePickerScreen.value = state
     }
 
     private fun convertUriToBitMap(uri: Uri): Bitmap =

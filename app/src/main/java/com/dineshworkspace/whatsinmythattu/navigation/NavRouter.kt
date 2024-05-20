@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.navigation.NavController
 
 
-object AppRouter {
+object NavRouter {
     @SuppressLint("StaticFieldLeak")
     var navController: NavController? = null
 

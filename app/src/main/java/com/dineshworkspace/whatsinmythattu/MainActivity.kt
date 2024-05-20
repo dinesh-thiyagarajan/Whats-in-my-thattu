@@ -11,8 +11,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.dineshworkspace.whatsinmythattu.navigation.AppNav
-import com.dineshworkspace.whatsinmythattu.navigation.AppRouter
+import com.dineshworkspace.whatsinmythattu.navigation.NavGraph
+import com.dineshworkspace.whatsinmythattu.navigation.NavRouter
 import com.dineshworkspace.whatsinmythattu.ui.theme.WhatsInMyThattuTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,8 +31,8 @@ class MainActivity : ComponentActivity() {
                         color = MaterialTheme.colorScheme.background
                     ) {
                         val navController = rememberNavController()
-                        AppRouter.navController = navController
-                        AppNav(navController)
+                        NavRouter.navController = navController
+                        NavGraph(navController)
                     }
                 }, modifier = Modifier.fillMaxSize())
             }

@@ -31,7 +31,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.dineshworkspace.whatsinmythattu.R
@@ -46,28 +45,28 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 @Composable
-fun CameraComposable() {
+fun CameraPreviewScreen(imageInterpreterViewModel: ImageInterpreterViewModel) {
     when (PackageManager.PERMISSION_GRANTED) {
         ContextCompat.checkSelfPermission(
             LocalContext.current,
             Manifest.permission.CAMERA
         ) -> {
-            CameraPreviewComposable()
+            CameraPreviewComposable(imageInterpreterViewModel = imageInterpreterViewModel)
         }
 
         else -> {
-            RequestCameraPermissionComposable()
+            RequestCameraPermissionComposable(imageInterpreterViewModel)
         }
     }
 }
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun RequestCameraPermissionComposable(imageInterpreterViewModel: ImageInterpreterViewModel = hiltViewModel()) {
+fun RequestCameraPermissionComposable(imageInterpreterViewModel: ImageInterpreterViewModel) {
 
     val cameraPermissionState = imageInterpreterViewModel.cameraPermissionState.collectAsState()
     if (cameraPermissionState.value) {
-        CameraPreviewComposable()
+        CameraPreviewComposable(imageInterpreterViewModel = imageInterpreterViewModel)
     }
 
     val permissionStates = rememberMultiplePermissionsState(
@@ -131,7 +130,7 @@ fun CameraPreviewComposable(
     modifier: Modifier = Modifier,
     scaleType: PreviewView.ScaleType = PreviewView.ScaleType.FILL_CENTER,
     cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA,
-    imageInterpreterViewModel: ImageInterpreterViewModel = hiltViewModel()
+    imageInterpreterViewModel: ImageInterpreterViewModel
 ) {
     val coroutineScope = rememberCoroutineScope()
     val imageCapture = remember { ImageCapture.Builder().build() }

@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
@@ -31,6 +32,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.dineshworkspace.tensorimageinterpreter.FoodMatch
+import com.dineshworkspace.whatsinmythattu.ui.viewModels.ImageInterpreterViewModel
 
 
 @Preview(showBackground = true)
@@ -55,30 +57,34 @@ class FoodMatchesPreviewParameterProvider : PreviewParameterProvider<List<FoodMa
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FoodMatchesScreen(
-    foodMatches: List<FoodMatch>, onBackButtonPressed: () -> Unit,
+    imageInterpreterViewModel: ImageInterpreterViewModel, onBackButtonPressed: () -> Unit,
 ) {
-    Scaffold(content = {
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            FoodMatchesComposable(foodMatches, onBackButtonPressed)
-        }
-    }, modifier = Modifier.fillMaxSize(), topBar = { AppBar() })
+    val foodMatches = imageInterpreterViewModel.foodMatches.collectAsState()
+    Scaffold(
+        content = {
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(it),
+                color = MaterialTheme.colorScheme.background
+            ) {
+                FoodMatchesComposable(foodMatches.value, onBackButtonPressed)
+            }
+        },
+        modifier = Modifier.fillMaxSize(),
+        topBar = { AppBar(onBackButtonPressed = onBackButtonPressed) })
 }
 
 
 @Preview(showBackground = true)
 @Composable
 fun AppBarPreview() {
-    AppBar()
+    AppBar({})
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar() {
+fun AppBar(onBackButtonPressed: () -> Unit) {
     TopAppBar(colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         titleContentColor = MaterialTheme.colorScheme.primary,
@@ -88,7 +94,7 @@ fun AppBar() {
         )
     }, navigationIcon = {
         IconButton(onClick = {
-
+            onBackButtonPressed.invoke()
         }) {
             Icon(
                 imageVector = Icons.Sharp.ArrowBack,
