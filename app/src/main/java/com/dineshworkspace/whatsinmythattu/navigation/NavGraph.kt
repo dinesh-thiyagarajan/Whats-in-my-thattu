@@ -44,10 +44,7 @@ fun NavGraph(navController: NavHostController) {
             ImagePickerScreen(
                 imageInterpreterViewModel = imageInterpreterViewModel,
                 onClose = {
-                    navController.popBackStack(
-                        route = Router.FoodMatchesRouter.route,
-                        inclusive = false
-                    )
+                    navController.popBackStack()
                 }
             )
         }
