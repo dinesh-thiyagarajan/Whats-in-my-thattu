@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     alias(libs.plugins.hilt)
+    id("com.google.firebase.crashlytics")
     id("com.google.gms.google-services")
 }
 
@@ -42,24 +43,20 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
-    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-
     kapt {
         correctErrorTypes = true
     }
-
     hilt {
         enableExperimentalClasspathAggregation = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.1"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
 }
 
@@ -93,6 +90,9 @@ dependencies {
 
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.coil.compose)
+    implementation("com.google.firebase:firebase-crashlytics:19.0.0")
+    implementation("com.google.firebase:firebase-analytics:22.0.0")
+
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)

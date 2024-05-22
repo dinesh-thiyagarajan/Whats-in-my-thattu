@@ -4,22 +4,23 @@ activity-compose = "1.9.0"
 coilCompose = "2.6.0"
 composeBom = "2024.05.00"
 constraintlayoutCompose = "1.0.1"
+firebaseCrashlyticsGradle = "3.0.1"
+googleServices = "4.4.1"
 hiltNavigationCompose = "1.2.0"
 lifecycle-runtime-ktx = "2.7.0"
 core-ktx = "1.13.1"
-agp = "8.1.0-rc01"
+agp = "8.1.4"
 navigationCompose = "2.7.7"
-org-jetbrains-kotlin-android = "1.8.0"
+org-jetbrains-kotlin-android = "1.9.24"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 appcompat = "1.6.1"
 material = "1.12.0"
 hilt = "2.49"
-hiltExt = "1.2.0"
 runtime = "1.6.7"
 spotlessPluginGradle = "6.19.0"
-camerax_version = "1.4.0-alpha05"
+camerax_version = "1.4.0-beta01"
 
 
 [libraries]
@@ -37,6 +38,10 @@ androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
+google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
@@ -49,10 +54,7 @@ spotless-plugin-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradl
 
 # Hilt
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
-hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltExt" }
-hilt-ext-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltExt" }
 
 # Camera
 camera-base = { group = "androidx.camera", name = "camera-camera2", version.ref = "camerax_version" }
@@ -66,4 +68,3 @@ firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-k
 com-android-library = { id = "com.android.library", version.ref = "agp" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-com-android-application = { id = "com.android.application", version.ref = "agp" }
