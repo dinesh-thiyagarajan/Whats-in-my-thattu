@@ -92,6 +92,7 @@ dependencies {
     implementation(libs.camera.extensions)
 
     implementation(libs.androidx.constraintlayout.compose)
+    implementation(libs.coil.compose)
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
