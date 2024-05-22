@@ -2,11 +2,11 @@
 Thattu means Plate in Tamil Language
 
 <p align="center">
-  <img src="screenshots/home_screen.png" height="480" width="270" alt="What's in my thattu"/>
-  <img src="screenshots/food_suggestions.png" height="480" width="270" alt="What's in my thattu"/>
+  <img src="screenshots/home_screen.png" height="580" width="270" alt="What's in my thattu"/>
+  <img src="screenshots/food_suggestions.png" height="580" width="270" alt="What's in my thattu"/>
 </p>
 
-What's in my thattu is an app which shows you the suggestions for the food items based on the images that you can either click using camera or select from gallery
+What's in my thattu is an app which shows you the suggestions for the food items based on the images that you can either click using camera or select from gallery.
 The Suggestions shown as a result from the ML Model are not 100 percent accurate
 
 # Acknowledgements
