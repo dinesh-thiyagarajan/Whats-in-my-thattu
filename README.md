@@ -18,6 +18,6 @@ The Suggestions shown as a result from the ML Model are not 100 percent accurate
 The app uses this [ML model](https://www.kaggle.com/models/google/aiy/tensorFlow1/vision-classifier-food-v1/1?tfhub-redirect=true)
 for image interpretation, Please check the link attached to know further about the model.
 
-The icons used in this app are from [SVG Repo](https://www.svgrepo.com) , The Icons shown in the UI are randomized images added only for representational purpose.
+The icons used in this app are from [SVG Repo](https://www.svgrepo.com) , The Images shown in the UI are randomized images added for representational purpose only.
 
-This app uses Jetpack compose for UI, Hilt for Dependency Injection, Coil for Image rendering and Tensor flow lite for ML model
+The app uses Jetpack compose for UI, Hilt for Dependency Injection, Coil for Image rendering and Tensor flow lite for ML model
