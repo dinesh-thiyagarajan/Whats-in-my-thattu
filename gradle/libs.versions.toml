@@ -4,6 +4,8 @@ activity-compose = "1.9.0"
 coilCompose = "2.6.0"
 composeBom = "2024.05.00"
 constraintlayoutCompose = "1.0.1"
+firebaseAnalytics = "22.0.0"
+firebaseCrashlytics = "19.0.0"
 firebaseCrashlyticsGradle = "3.0.1"
 googleServices = "4.4.1"
 hiltNavigationCompose = "1.2.0"
@@ -38,9 +40,9 @@ androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
-firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
+google-firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebaseAnalytics" }
+google-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebaseCrashlytics" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }

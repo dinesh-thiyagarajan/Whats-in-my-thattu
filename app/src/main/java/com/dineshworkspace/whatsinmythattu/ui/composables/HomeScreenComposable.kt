@@ -5,7 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -44,16 +44,15 @@ fun HomeScreenComposable(imageInterpreterViewModel: ImageInterpreterViewModel) {
             contentDescription = "camera",
         )
 
-        Divider(
-            modifier = Modifier
-                .constrainAs(divider) {
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                }
-                .width(75.dp)
-                .rotate(90f),
+        HorizontalDivider(modifier = Modifier
+            .constrainAs(divider) {
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+            }
+            .width(75.dp)
+            .rotate(90f),
             color = MaterialTheme.colorScheme.outline
         )
 

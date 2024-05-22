@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.sharp.ArrowBack
+import androidx.compose.material.icons.automirrored.sharp.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -114,7 +114,7 @@ fun AppBar(onBackButtonPressed: () -> Unit) {
             onBackButtonPressed.invoke()
         }) {
             Icon(
-                imageVector = Icons.Sharp.ArrowBack,
+                imageVector = Icons.AutoMirrored.Sharp.ArrowBack,
                 contentDescription = "back"
             )
         }
@@ -169,8 +169,8 @@ fun RoundedCardView(imageResId: Int, title: String, description: String) {
             .padding(8.dp)
             .fillMaxHeight(),
         colors = CardDefaults.cardColors(
-            containerColor = Color.LightGray, //Card background color
-            contentColor = Color.Black  //Card content color,e.g.text
+            containerColor = Color.LightGray,
+            contentColor = Color.Black
         ),
         shape = MaterialTheme.shapes.medium
     ) {

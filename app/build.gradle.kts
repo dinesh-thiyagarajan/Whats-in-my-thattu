@@ -90,9 +90,8 @@ dependencies {
 
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.coil.compose)
-    implementation("com.google.firebase:firebase-crashlytics:19.0.0")
-    implementation("com.google.firebase:firebase-analytics:22.0.0")
-
+    implementation(libs.google.firebase.crashlytics)
+    implementation(libs.google.firebase.analytics)
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
