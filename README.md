@@ -1,9 +1,13 @@
+# What's in my thattu
+
 **What's in my thattu** is a fully functional Android app built entirely with Kotlin and Jetpack Compose.
 Thattu means Plate in Tamil Language
 
+# Screenshots
+
 <p align="center">
-  <img src="screenshots/home_screen.png" height="580" width="270" alt="What's in my thattu"/>
-  <img src="screenshots/food_suggestions.png" height="580" width="270" alt="What's in my thattu"/>
+  <img src="screenshots/home_screen.png" width="250" alt="What's in my thattu"/>
+  <img src="screenshots/food_suggestions.png" width="250" alt="What's in my thattu"/>
 </p>
 
 What's in my thattu is an app which shows you the suggestions for the food items based on the images that you can either click using camera or select from gallery.
