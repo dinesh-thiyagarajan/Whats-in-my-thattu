@@ -5,5 +5,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class FoodMatch(val score: Float, val label: String, val displayName: String) : Parcelable {
-    val imageRandomId get() = (0..8).random()
+    val imageRandomId get() = (1..8).random()
 }
