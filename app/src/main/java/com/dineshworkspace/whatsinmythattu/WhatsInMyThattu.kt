@@ -10,5 +10,4 @@ class WhatsInMyThattu : Application() {
         super.onCreate()
         FirebaseApp.initializeApp(this.applicationContext)
     }
-
 }

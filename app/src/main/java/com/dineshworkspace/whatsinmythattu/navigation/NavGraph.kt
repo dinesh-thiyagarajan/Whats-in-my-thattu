@@ -20,10 +20,10 @@ private object Route {
 }
 
 sealed class Router(val route: String, val navArguments: List<NamedNavArgument> = emptyList()) {
-    object HomeRouter : Router(route = Route.HOME_SCREEN)
-    object CameraPreviewRouter : Router(route = Route.CAMERA_PREVIEW_SCREEN)
-    object FoodMatchesRouter : Router(route = Route.FOOD_MATCHES_SCREEN)
-    object ImagePicker : Router(route = Route.IMAGE_PICKER)
+    data object HomeRouter : Router(route = Route.HOME_SCREEN)
+    data object CameraPreviewRouter : Router(route = Route.CAMERA_PREVIEW_SCREEN)
+    data object FoodMatchesRouter : Router(route = Route.FOOD_MATCHES_SCREEN)
+    data object ImagePicker : Router(route = Route.IMAGE_PICKER)
 }
 
 
