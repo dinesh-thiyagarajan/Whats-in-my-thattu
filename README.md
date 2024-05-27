@@ -3,6 +3,9 @@
 **What's in my thattu** is a fully functional Android app built entirely with Kotlin and Jetpack Compose.
 Thattu means Plate in Tamil Language
 
+<a href="https://play.google.com/store/apps/details?id=com.dineshworkspace.whatsinmythattu" target="_blank">
+<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="90"/></a>
+
 # Screenshots
 
 <p align="center">
