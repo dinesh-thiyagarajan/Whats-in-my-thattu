@@ -1,6 +1,5 @@
 package com.dineshworkspace.whatsinmythattu.ui.composables
 
-
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.activity.compose.BackHandler
@@ -75,11 +74,12 @@ fun ImagePickerScreen(
         }
     LaunchedEffect(key1 = launchImagePicker.value) {
         if (launchImagePicker.value) {
-            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            pickMedia.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            )
         }
     }
 }
-
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable

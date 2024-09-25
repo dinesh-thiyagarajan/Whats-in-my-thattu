@@ -26,7 +26,6 @@ sealed class Router(val route: String, val navArguments: List<NamedNavArgument> 
     data object ImagePicker : Router(route = Route.IMAGE_PICKER)
 }
 
-
 @Composable
 fun NavGraph(navController: NavHostController) {
     val imageInterpreterViewModel: ImageInterpreterViewModel = hiltViewModel()
@@ -58,8 +57,8 @@ fun NavGraph(navController: NavHostController) {
                         route = Router.HomeRouter.route,
                         inclusive = false
                     )
-                })
+                }
+            )
         }
-
     }
 }

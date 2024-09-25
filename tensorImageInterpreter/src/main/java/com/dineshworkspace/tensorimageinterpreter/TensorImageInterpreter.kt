@@ -1,6 +1,5 @@
 package com.dineshworkspace.tensorimageinterpreter
 
-
 import android.content.Context
 import android.graphics.Bitmap
 import com.dineshworkspace.tensorimageinterpreter.ml.WhatsInMyThattu
@@ -25,5 +24,4 @@ class TensorImageInterpreter(context: Context) {
     fun closeModel() {
         model.close()
     }
-
 }

@@ -43,7 +43,6 @@ import com.dineshworkspace.tensorimageinterpreter.FoodMatch
 import com.dineshworkspace.whatsinmythattu.R
 import com.dineshworkspace.whatsinmythattu.ui.viewModels.ImageInterpreterViewModel
 
-
 @Preview(showBackground = true)
 @Composable
 fun FoodMatchesComposablePreview(
@@ -58,14 +57,15 @@ class FoodMatchesPreviewParameterProvider : PreviewParameterProvider<List<FoodMa
             FoodMatch(9.0f, "Rose Milk", ""),
             FoodMatch(9.0f, "Egg Puffs", ""),
             FoodMatch(9.0f, "Mutton Dosai", ""),
-            FoodMatch(9.0f, "Sambar Soru", ""),
+            FoodMatch(9.0f, "Sambar Soru", "")
         )
     )
 }
 
 @Composable
 fun FoodMatchesScreen(
-    imageInterpreterViewModel: ImageInterpreterViewModel, onBackButtonPressed: () -> Unit,
+    imageInterpreterViewModel: ImageInterpreterViewModel,
+    onBackButtonPressed: () -> Unit
 ) {
     val foodMatches = imageInterpreterViewModel.foodMatches.collectAsState()
 
@@ -85,13 +85,13 @@ fun FoodMatchesScreen(
             }
         },
         modifier = Modifier.fillMaxSize(),
-        topBar = { AppBar(onBackButtonPressed = onBackButtonPressed) })
+        topBar = { AppBar(onBackButtonPressed = onBackButtonPressed) }
+    )
 
     BackHandler {
         onBackButtonPressed.invoke()
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
@@ -102,23 +102,29 @@ fun AppBarPreview() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(onBackButtonPressed: () -> Unit) {
-    TopAppBar(colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
-        titleContentColor = MaterialTheme.colorScheme.primary,
-    ), title = {
-        Text(
-            "Food Matches", maxLines = 1, overflow = TextOverflow.Ellipsis
-        )
-    }, navigationIcon = {
-        IconButton(onClick = {
-            onBackButtonPressed.invoke()
-        }) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Sharp.ArrowBack,
-                contentDescription = "back"
+    TopAppBar(
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary
+        ),
+        title = {
+            Text(
+                "Food Matches",
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
+        },
+        navigationIcon = {
+            IconButton(onClick = {
+                onBackButtonPressed.invoke()
+            }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Sharp.ArrowBack,
+                    contentDescription = "back"
+                )
+            }
         }
-    })
+    )
 }
 
 @Composable
@@ -156,7 +162,7 @@ fun GridListWithRoundedCardViews(
             RoundedCardView(
                 imageResId = getResourceId(data[index].imageRandomId),
                 title = data[index].label,
-                description = "Score: ${data[index].score}%",
+                description = "Score: ${data[index].score}%"
             )
         }
     }

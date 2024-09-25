@@ -41,12 +41,12 @@ import com.dineshworkspace.whatsinmythattu.ui.viewModels.ImageInterpreterViewMod
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import java.io.File
 import java.util.concurrent.Executor
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @Composable
 fun CameraPreviewScreen(imageInterpreterViewModel: ImageInterpreterViewModel) {
@@ -67,7 +67,6 @@ fun CameraPreviewScreen(imageInterpreterViewModel: ImageInterpreterViewModel) {
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun RequestCameraPermissionComposable(imageInterpreterViewModel: ImageInterpreterViewModel) {
-
     val cameraPermissionState = imageInterpreterViewModel.cameraPermissionState.collectAsState()
     if (cameraPermissionState.value) {
         CameraPreviewComposable(imageInterpreterViewModel = imageInterpreterViewModel)
@@ -75,10 +74,9 @@ fun RequestCameraPermissionComposable(imageInterpreterViewModel: ImageInterprete
 
     val permissionStates = rememberMultiplePermissionsState(
         permissions = listOf(
-            Manifest.permission.CAMERA,
+            Manifest.permission.CAMERA
         )
     )
-
 
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(
@@ -95,7 +93,6 @@ fun RequestCameraPermissionComposable(imageInterpreterViewModel: ImageInterprete
             }
         }
     )
-
 
     permissionStates.permissions.forEach {
         when (it.permission) {
@@ -141,7 +138,6 @@ fun CameraPreviewComposable(
     val fileDir = LocalContext.current.cacheDir
     val executor = LocalContext.current.executor
 
-
     val lifecycleOwner = LocalLifecycleOwner.current
     Box(contentAlignment = Alignment.BottomCenter, modifier = Modifier.fillMaxSize()) {
         AndroidView(
@@ -168,7 +164,10 @@ fun CameraPreviewComposable(
                         // Must unbind the use-cases before rebinding them.
                         cameraProvider.unbindAll()
                         cameraProvider.bindToLifecycle(
-                            lifecycleOwner, cameraSelector, previewUseCase, imageCapture
+                            lifecycleOwner,
+                            cameraSelector,
+                            previewUseCase,
+                            imageCapture
                         )
                     } catch (ex: Exception) {
                         Log.e("CameraPreview", "Use case binding failed", ex)
@@ -193,7 +192,9 @@ fun CameraPreviewComposable(
                         outputOptions,
                         executor,
                         object : ImageCapture.OnImageSavedCallback {
-                            override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                            override fun onImageSaved(
+                                outputFileResults: ImageCapture.OutputFileResults
+                            ) {
                                 val uri = Uri.fromFile(photoFile)
                                 coroutineScope.launch {
                                     val imageInterpretation = coroutineScope.async {
@@ -214,11 +215,11 @@ fun CameraPreviewComposable(
                             override fun onError(exception: ImageCaptureException) {
                                 Log.e("CameraCapture", "Image capture failed", exception)
                             }
-                        })
+                        }
+                    )
                 },
             painter = painterResource(id = R.drawable.ic_camera_lens),
             contentDescription = "Camera Capture"
         )
     }
-
 }

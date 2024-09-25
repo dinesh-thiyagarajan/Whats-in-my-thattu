@@ -20,10 +20,8 @@ import com.dineshworkspace.whatsinmythattu.navigation.NavRouter
 import com.dineshworkspace.whatsinmythattu.navigation.Router
 import com.dineshworkspace.whatsinmythattu.ui.viewModels.ImageInterpreterViewModel
 
-
 @Composable
 fun HomeScreenComposable(imageInterpreterViewModel: ImageInterpreterViewModel) {
-
     val showImagePicker = imageInterpreterViewModel.redirectToImagePickerScreen.collectAsState()
 
     ConstraintLayout {
@@ -41,18 +39,19 @@ fun HomeScreenComposable(imageInterpreterViewModel: ImageInterpreterViewModel) {
                 }
                 .size(50.dp),
             painter = painterResource(id = R.drawable.ic_camera),
-            contentDescription = "camera",
+            contentDescription = "camera"
         )
 
-        HorizontalDivider(modifier = Modifier
-            .constrainAs(divider) {
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-            }
-            .width(75.dp)
-            .rotate(90f),
+        HorizontalDivider(
+            modifier = Modifier
+                .constrainAs(divider) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                }
+                .width(75.dp)
+                .rotate(90f),
             color = MaterialTheme.colorScheme.outline
         )
 
@@ -69,7 +68,7 @@ fun HomeScreenComposable(imageInterpreterViewModel: ImageInterpreterViewModel) {
                 }
                 .size(50.dp),
             painter = painterResource(id = R.drawable.ic_folder),
-            contentDescription = "folder",
+            contentDescription = "folder"
         )
     }
 
@@ -80,4 +79,3 @@ fun HomeScreenComposable(imageInterpreterViewModel: ImageInterpreterViewModel) {
         }
     }
 }
-

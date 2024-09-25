@@ -4,17 +4,16 @@ import android.content.ContentResolver
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
-import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dineshworkspace.tensorimageinterpreter.FoodMatch
 import com.dineshworkspace.tensorimageinterpreter.TensorImageInterpreter
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class ImageInterpreterViewModel @Inject constructor(
@@ -47,7 +46,6 @@ class ImageInterpreterViewModel @Inject constructor(
     private val _redirectToImagePickerScreen: MutableStateFlow<Boolean> = MutableStateFlow(
         false
     )
-
 
     fun onImageSelected(uri: Uri?) {
         uri?.let {

@@ -14,5 +14,4 @@ object TensorModule {
     @Provides
     fun providesTensorImageInterpreter(@ApplicationContext context: Context): TensorImageInterpreter =
         TensorImageInterpreter(context)
-
 }

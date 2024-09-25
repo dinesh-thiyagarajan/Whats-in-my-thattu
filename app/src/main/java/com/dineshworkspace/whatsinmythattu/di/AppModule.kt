@@ -15,5 +15,4 @@ class AppModule {
     @Provides
     fun providesContentResolver(@ApplicationContext context: Context): ContentResolver =
         context.contentResolver
-
 }
