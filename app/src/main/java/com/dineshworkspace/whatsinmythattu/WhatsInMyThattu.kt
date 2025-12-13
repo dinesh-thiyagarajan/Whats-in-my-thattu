@@ -1,13 +1,7 @@
 package com.dineshworkspace.whatsinmythattu
 
 import android.app.Application
-import com.google.firebase.FirebaseApp
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class WhatsInMyThattu : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        FirebaseApp.initializeApp(this.applicationContext)
-    }
-}
+class WhatsInMyThattu : Application()

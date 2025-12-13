@@ -3,8 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     alias(libs.plugins.hilt)
-    id("com.google.firebase.crashlytics")
-    id("com.google.gms.google-services")
 }
 
 android {
@@ -12,7 +10,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.dineshworkspace.whatsinmythattu"
+        applicationId = "com.app.whatsinmythattu"
         minSdk = 33
         targetSdk = 36
         versionCode = 3
@@ -70,7 +68,6 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(project(mapOf("path" to ":TensorImageInterpreter")))
-    implementation(libs.firebase.common.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -90,8 +87,6 @@ dependencies {
 
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.coil.compose)
-    implementation(libs.google.firebase.crashlytics)
-    implementation(libs.google.firebase.analytics)
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
