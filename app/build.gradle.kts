@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "com.dineshworkspace.whatsinmythattu"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.dineshworkspace.whatsinmythattu"
         minSdk = 33
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 3
         versionName = "1.1.1"
 
