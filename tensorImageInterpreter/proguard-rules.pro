@@ -19,3 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+# Consumer ProGuard rules for TensorImageInterpreter module
+-keep class com.dineshworkspace.tensorimageinterpreter.** { *; }
+# Keep Hilt/Dagger generated classes
+-keep class com.dineshworkspace.tensorimageinterpreter.*Module_Provide** { *; }
