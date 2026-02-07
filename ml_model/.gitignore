@@ -1,0 +1,31 @@
+# Training data (large, downloaded at runtime)
+data/
+
+# Model checkpoints (large binary files)
+checkpoints/
+
+# Exported models (deploy manually)
+exported_model/*.tflite
+exported_model/evaluation_report.json
+exported_model/training_report.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db

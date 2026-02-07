@@ -51,15 +51,9 @@ class ImageInterpreterViewModel @Inject constructor(
         uri?.let {
             viewModelScope.launch(Dispatchers.IO) {
                 val bitmap = convertUriToBitMap(uri)
-                val foodMatches = mutableListOf<FoodMatch>()
-                val interpretedMatches: List<FoodMatch> =
+                val interpretedMatches =
                     tensorImageInterpreter.runImageInterpretation(bitmap)
-                repeat(interpretedMatches.filter { it.score > 0.0 }.size) { iterator ->
-                    if (iterator <= 100) {
-                        foodMatches.add(interpretedMatches[iterator])
-                    }
-                }
-                _foodMatches.value = foodMatches
+                _foodMatches.value = interpretedMatches
             }
         }
     }

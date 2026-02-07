@@ -159,10 +159,11 @@ fun GridListWithRoundedCardViews(
         contentPadding = PaddingValues(8.dp)
     ) {
         items(data.size) { index ->
+            val match = data[index]
             RoundedCardView(
-                imageResId = getResourceId(data[index].imageRandomId),
-                title = data[index].label,
-                description = "Score: ${data[index].score}%"
+                imageResId = getResourceId(match.imageRandomId),
+                title = match.displayName.ifEmpty { match.label },
+                description = "Confidence: ${match.confidencePercent}"
             )
         }
     }
