@@ -12,29 +12,47 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.CameraAlt
+import androidx.compose.material.icons.rounded.PhotoCamera
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeFloatingActionButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavOptions
-import com.dineshworkspace.whatsinmythattu.R
 import com.dineshworkspace.whatsinmythattu.navigation.NavRouter
 import com.dineshworkspace.whatsinmythattu.navigation.Router
 import com.dineshworkspace.whatsinmythattu.ui.viewModels.ImageInterpreterViewModel
@@ -137,11 +155,12 @@ fun CameraPreviewComposable(
     val imageCapture = remember { ImageCapture.Builder().build() }
     val fileDir = LocalContext.current.cacheDir
     val executor = LocalContext.current.executor
+    var isProcessing by remember { mutableStateOf(false) }
 
     val lifecycleOwner = LocalLifecycleOwner.current
-    Box(contentAlignment = Alignment.BottomCenter, modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize()) {
         AndroidView(
-            modifier = modifier,
+            modifier = modifier.fillMaxSize(),
             factory = { context ->
                 val previewView = PreviewView(context).apply {
                     this.scaleType = scaleType
@@ -151,7 +170,6 @@ fun CameraPreviewComposable(
                     )
                 }
 
-                // CameraX Preview UseCase
                 val previewUseCase = Preview.Builder()
                     .build()
                     .also {
@@ -161,7 +179,6 @@ fun CameraPreviewComposable(
                 coroutineScope.launch {
                     val cameraProvider = context.getCameraProvider()
                     try {
-                        // Must unbind the use-cases before rebinding them.
                         cameraProvider.unbindAll()
                         cameraProvider.bindToLifecycle(
                             lifecycleOwner,
@@ -177,14 +194,62 @@ fun CameraPreviewComposable(
                 previewView
             }
         )
-        Image(
-            modifier = Modifier
-                .padding(bottom = 20.dp)
-                .clickable {
-                    val photoFile = File(
-                        fileDir,
-                        "${System.currentTimeMillis()}.jpg"
+
+        // Processing overlay
+        AnimatedVisibility(
+            visible = isProcessing,
+            enter = fadeIn(),
+            exit = fadeOut(),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(48.dp),
+                        color = MaterialTheme.colorScheme.primary,
+                        strokeWidth = 4.dp
                     )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "Analyzing your food...",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.inverseOnSurface
+                    )
+                }
+            }
+        }
+
+        // Hint text at top
+        if (!isProcessing) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 48.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
+                        shape = MaterialTheme.shapes.medium
+                    )
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                Text(
+                    text = "Point at your plate and tap to capture",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.inverseOnSurface
+                )
+            }
+        }
+
+        // Capture button
+        if (!isProcessing) {
+            LargeFloatingActionButton(
+                onClick = {
+                    isProcessing = true
+                    val photoFile = File(fileDir, "${System.currentTimeMillis()}.jpg")
                     val outputOptions = ImageCapture.OutputFileOptions
                         .Builder(photoFile)
                         .build()
@@ -201,6 +266,7 @@ fun CameraPreviewComposable(
                                         imageInterpreterViewModel.onImageSelected(uri = uri)
                                     }
                                     imageInterpretation.await()
+                                    isProcessing = false
                                     val navOptions = NavOptions
                                         .Builder()
                                         .setPopUpTo(Router.FoodMatchesRouter.route, true)
@@ -213,13 +279,25 @@ fun CameraPreviewComposable(
                             }
 
                             override fun onError(exception: ImageCaptureException) {
+                                isProcessing = false
                                 Log.e("CameraCapture", "Image capture failed", exception)
                             }
                         }
                     )
                 },
-            painter = painterResource(id = R.drawable.ic_camera_lens),
-            contentDescription = "Camera Capture"
-        )
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 32.dp),
+                shape = CircleShape,
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.PhotoCamera,
+                    contentDescription = "Capture",
+                    modifier = Modifier.size(36.dp)
+                )
+            }
+        }
     }
 }

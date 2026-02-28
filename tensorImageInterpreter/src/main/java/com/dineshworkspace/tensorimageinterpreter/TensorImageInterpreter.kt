@@ -3,15 +3,20 @@ package com.dineshworkspace.tensorimageinterpreter
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
-import com.dineshworkspace.tensorimageinterpreter.ml.WhatsInMyThattu
+import com.dineshworkspace.tensorimageinterpreter.ml.WhatsInMyThattuV2
+import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.common.ops.NormalizeOp
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.image.ops.ResizeOp
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 
 class TensorImageInterpreter(context: Context) {
 
-    private val model: WhatsInMyThattu = WhatsInMyThattu.newInstance(context)
+    private val model: WhatsInMyThattuV2 = WhatsInMyThattuV2.newInstance(context)
+
+    /** Labels loaded from assets/labels.txt — one label per line, order matches model output. */
+    private val labels: List<String> = loadLabels(context)
 
     /**
      * Image processor that handles resizing and normalization to match
@@ -26,19 +31,26 @@ class TensorImageInterpreter(context: Context) {
 
     fun runImageInterpretation(bitmap: Bitmap): List<FoodMatch> {
         val processedImage = preprocessImage(bitmap)
-        val outputs = model.process(processedImage)
 
-        return outputs.probabilityAsCategoryList
+        // Convert TensorImage to TensorBuffer for the v2 model (no metadata)
+        val inputBuffer = processedImage.tensorBuffer
+        val outputs = model.process(inputBuffer)
+
+        // Get raw probability array from output
+        val probabilities = outputs.outputFeature0AsTensorBuffer.floatArray
+
+        // Map probabilities to labels and build FoodMatch list
+        return probabilities.mapIndexed { index, score ->
+            val label = labels.getOrElse(index) { "unknown_$index" }
+            FoodMatch(
+                score = score,
+                displayName = label,
+                label = label.lowercase().replace(" ", "_")
+            )
+        }
             .filter { it.score > MIN_CONFIDENCE_THRESHOLD }
             .sortedByDescending { it.score }
             .take(MAX_RESULTS)
-            .map {
-                FoodMatch(
-                    score = it.score,
-                    displayName = it.displayName.ifEmpty { formatLabel(it.label) },
-                    label = it.label
-                )
-            }
     }
 
     /**
@@ -56,19 +68,6 @@ class TensorImageInterpreter(context: Context) {
         return imageProcessor.process(tensorImage)
     }
 
-    /**
-     * Convert snake_case or raw labels into human-readable display names.
-     * e.g., "chicken_curry" -> "Chicken Curry"
-     */
-    private fun formatLabel(label: String): String {
-        return label
-            .replace("_", " ")
-            .split(" ")
-            .joinToString(" ") { word ->
-                word.replaceFirstChar { it.uppercaseChar() }
-            }
-    }
-
     fun closeModel() {
         try {
             model.close()
@@ -84,5 +83,17 @@ class TensorImageInterpreter(context: Context) {
         private const val NORMALIZE_STD = 255f
         private const val MIN_CONFIDENCE_THRESHOLD = 0.01f
         private const val MAX_RESULTS = 50
+        private const val LABELS_FILE = "labels.txt"
+
+        private fun loadLabels(context: Context): List<String> {
+            return try {
+                context.assets.open(LABELS_FILE).bufferedReader().readLines()
+                    .map { it.trim() }
+                    .filter { it.isNotEmpty() }
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to load labels from $LABELS_FILE", e)
+                emptyList()
+            }
+        }
     }
 }
